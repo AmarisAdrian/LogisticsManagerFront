@@ -1,0 +1,31 @@
+<h5>Editar Cliente</h5>
+<form (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="nombre_completo">Nombre completo</label>
+    <input type="text" id="nombre_completo" class="form-control" [(ngModel)]="cliente.nombre_completo" name="nombre_completo" required />
+  </div>
+  
+  <div class="form-group">
+    <label for="direccion">Dirección</label>
+    <input type="text" id="direccion" class="form-control" [(ngModel)]="cliente.direccion" name="direccion" required />
+  </div>
+
+  <div class="form-group">
+    <label for="telefono">Teléfono</label>
+    <input type="text" id="telefono" class="form-control" [(ngModel)]="cliente.telefono" name="telefono" required />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" class="form-control" [(ngModel)]="cliente.email" name="email" required />
+  </div>
+
+  <div class="form-group">
+    <label for="id_tipo_cliente">Tipo de cliente</label>
+    <select class="form-control" [(ngModel)]="cliente.id_tipo_cliente" name="id_tipo_cliente">
+      <option *ngFor="let tipo of tipoClientes" [value]="tipo.id">{{ tipo.nombre }}</option>
+    </select>
+  </div>
+  <input type="hidden" id="id_cliente" class="form-control" [(ngModel)]="cliente.id_cliente" name="id_cliente" required />
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
