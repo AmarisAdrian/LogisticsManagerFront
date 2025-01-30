@@ -1,0 +1,30 @@
+
+<h5>LISTADO DE PRODUCTOS</h5>
+<a [href]="'/productos/crear-producto'" class="btn btn-primary">Crear producto</a>
+
+<hr class="border border-secondary">
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Descripcion</th>
+        <th scope="col">Tipo producto</th>
+        <th scope="col">Fecha creacion</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <p *ngIf="productos.length === 0">No hay productos disponibles.</p>
+      <tr *ngFor="let producto of productos; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.nombre_tipo_producto }}</td>
+        <td>{{ producto.fecha_creacion }}</td>
+        <td>
+         <a class="btn btn-warning btn-sm" [routerLink]="['/productos/editar', producto.id_producto]">Editar</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>

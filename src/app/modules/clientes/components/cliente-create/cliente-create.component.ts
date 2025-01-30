@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './cliente-create.component.html',
   styleUrl: './cliente-create.component.css'
 })
-export class ClienteCreateComponent{
+export class ClienteCreateComponent implements OnInit  {
   cliente: Cliente = {
     id_cliente: 0, 
     nombre_completo: '',
