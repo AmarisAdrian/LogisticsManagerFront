@@ -1,0 +1,46 @@
+<div class="container">
+    <h2>Buscar producto</h2>
+    <form (ngSubmit)="onSubmit()" #productoForm="ngForm">
+        <div class="form-group">
+          <label for="nombre">Nombre o descripcion del producto</label>
+          <input type="text" id="nombre" class="form-control" [(ngModel)]="producto.nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">Buscar</button>
+        </div>
+    </form>
+    <br><br>
+     <!-- Tabla para mostrar los resultados -->
+  <div *ngIf="resultados.length > 0">
+    <h3>Resultados de la búsqueda</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Tipo de Producto</th>
+          <th>Fecha de Creación</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of resultados">
+          <td>{{ item.id_producto }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.descripcion }}</td>
+          <td>{{ item.nombre_tipo_producto }}</td>
+          <td>{{ item.fecha_creacion | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <a class="btn btn-warning btn-sm" [routerLink]="['/productos/editar', item.id_producto]">Asignar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mensaje si no hay resultados -->
+  <div *ngIf="resultados.length === 0 && productoForm.submitted">
+    <p>No se encontraron resultados.</p>
+  </div>
+</div>
