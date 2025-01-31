@@ -29,4 +29,8 @@ export class ProductosService {
     updateProducto(producto: Producto): Observable<Producto> {
         return this.http.put<Producto>(`${this.apiUrl}/editar-producto/${producto.id_producto}`, producto);
     }
+    getProductoByNombre(nombre: string): Observable<Producto[]> {
+      return this.http.get<ProductosResponse>(`${this.apiUrl}/buscar-producto/${nombre}`).pipe(
+        map((response : ProductosResponse) => response.data));;
+    }
 }

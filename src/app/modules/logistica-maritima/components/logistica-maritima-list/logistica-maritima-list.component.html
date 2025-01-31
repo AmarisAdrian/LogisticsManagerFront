@@ -1,18 +1,27 @@
 <div class="container">
-    <h2>Buscar producto</h2>
-    <form (ngSubmit)="onSubmit()" #productoForm="ngForm">
-        <div class="form-group">
-          <label for="nombre">Nombre o descripcion del producto</label>
-          <input type="text" id="nombre" class="form-control" [(ngModel)]="producto.nombre" name="nombre" required>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">Buscar</button>
-        </div>
-    </form>
-    <br><br>
-     <!-- Tabla para mostrar los resultados -->
+  <h2>Buscar producto</h2>
+  <form (ngSubmit)="onSubmit()" #productoForm="ngForm">
+    <div class="form-group">
+      <label for="nombre">Nombre o descripción del producto</label>
+      <input
+        type="text"
+        id="nombre"
+        class="form-control"
+        [(ngModel)]="producto.nombre"
+        name="nombre"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">
+        Buscar
+      </button>
+    </div>
+  </form>
+  <br><br>
+
   <div *ngIf="resultados.length > 0">
-    <h3>Resultados de la búsqueda</h3>
+    <h3>Resultados</h3>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -25,17 +34,81 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of resultados">
-          <td>{{ item.id_producto }}</td>
-          <td>{{ item.nombre }}</td>
-          <td>{{ item.descripcion }}</td>
-          <td>{{ item.nombre_tipo_producto }}</td>
-          <td>{{ item.fecha_creacion | date: 'dd/MM/yyyy' }}</td>
-          <td>
-            <a class="btn btn-warning btn-sm" [routerLink]="['/productos/editar', item.id_producto]">Asignar</a>
-          </td>
-        </tr>
-      </tbody>
+          <ng-container *ngFor="let item of resultados">
+            <tr>
+              <td>{{ item.id_producto }}</td>
+              <td>{{ item.nombre }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>{{ item.nombre_tipo_producto }}</td>
+              <td>{{ item.fecha_creacion | date: 'dd/MM/yyyy' }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm" (click)="mostrarFormulario(item.id_producto)">
+                  Asignar
+                </button>
+              </td>
+            </tr>
+        
+            <!-- ✅ Usamos ng-container para mantener el contexto de item -->
+            <tr *ngIf="filaSeleccionada === item.id_producto">
+              <td colspan="6">
+                <form (ngSubmit)="enviarFormulario()" #logisticaForm="ngForm">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label for="cantidad_producto">Cantidad</label>
+                      <input type="number" id="cantidad_producto" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.cantidad_producto" name="cantidad_producto" required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="fecha_registro">Fecha de Registro</label>
+                      <input type="datetime-local" id="fecha_registro" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.fecha_registro" name="fecha_registro" required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="fecha_entrega">Fecha de entrega</label>
+                      <input type="datetime-local" id="fecha_registro" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.fecha_entrega" name="fecha_entrega" required />
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="id_tipo_cliente">Puertos</label>
+                        <select id="id_tipo_cliente" class="form-control" [(ngModel)]="LogisticaMaritima.id_puerto" name="id_puerto" required>
+                          <option *ngFor="let puerto of puertos" [value]="puerto.id">{{ puerto.nombre }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="precio_envio">precio envio</label>
+                      <input type="number" id="precio_envio" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.precio_envio" name="precio_envio" (change)="calcularDescuento()"  required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="precio_con_descuento">precio con descuento</label>
+                      <input type="text" id="precio_con_descuento" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.precio_con_descuento" name="precio_con_descuento" readonly/>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="numero_flota">Numero flota</label>
+                      <input type="text" id="numero_flota" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.numero_flota" name="numero_flota" required />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="numero_guia">Numero guia</label>
+                      <input type="text" id="numero_guia" class="form-control"
+                        [(ngModel)]="LogisticaMaritima.numero_guia" name="numero_guia" required />
+                    </div>
+                  </div>
+                  <br>
+                    <button type="submit" class="btn btn-success" [disabled]="logisticaForm.invalid">
+                      Guardar
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="filaSeleccionada = null">
+                      Cancelar
+                    </button>
+                </form>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>    
     </table>
   </div>
 
