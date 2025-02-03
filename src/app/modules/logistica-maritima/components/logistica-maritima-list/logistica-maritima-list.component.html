@@ -51,50 +51,65 @@
             <!-- ✅ Usamos ng-container para mantener el contexto de item -->
             <tr *ngIf="filaSeleccionada === item.id_producto">
               <td colspan="6">
-                <form (ngSubmit)="enviarFormulario()" #logisticaForm="ngForm">
+                <form (ngSubmit)="onSubmitEnvio()" #logisticaForm="ngForm">
                   <div class="row">
                     <div class="col-md-3">
-                      <label for="cantidad_producto">Cantidad</label>
+                      <label for="cliente">Seleccionar Cliente *</label>
+                        <ng-select                       
+                        [items]="clientesFiltrados"
+                        bindLabel="nombre_completo"
+                        bindValue="id_cliente"
+                        [(ngModel)]="LogisticaMaritima.id_cliente"
+                        name="id_cliente"
+                        [searchable]="true"
+                        placeholder="Buscar cliente..."
+                        (ngModelChange)="searchTerm = $event; filtrarClientes()"
+                        notFoundText="No encontrado">
+                        </ng-select>
+                    </div>
+                    <br><br>
+                    <div class="col-md-3">
+                      <label for="cantidad_producto">Cantidad *</label>
                       <input type="number" id="cantidad_producto" class="form-control"
                         [(ngModel)]="LogisticaMaritima.cantidad_producto" name="cantidad_producto" required />
                     </div>
                     <div class="col-md-3">
-                      <label for="fecha_registro">Fecha de Registro</label>
+                      <label for="fecha_registro">Fecha de Registro *</label>
                       <input type="datetime-local" id="fecha_registro" class="form-control"
                         [(ngModel)]="LogisticaMaritima.fecha_registro" name="fecha_registro" required />
                     </div>
                     <div class="col-md-3">
-                      <label for="fecha_entrega">Fecha de entrega</label>
+                      <label for="fecha_entrega">Fecha de entrega *</label>
                       <input type="datetime-local" id="fecha_registro" class="form-control"
                         [(ngModel)]="LogisticaMaritima.fecha_entrega" name="fecha_entrega" required />
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="id_tipo_cliente">Puertos</label>
-                        <select id="id_tipo_cliente" class="form-control" [(ngModel)]="LogisticaMaritima.id_puerto" name="id_puerto" required>
-                          <option *ngFor="let puerto of puertos" [value]="puerto.id">{{ puerto.nombre }}</option>
+                        <label for="id_puerto">Puertos *</label>
+                        <select id="id_puerto" class="form-control" [(ngModel)]="LogisticaMaritima.id_puerto" name="id_puerto" required>
+                          <option *ngFor="let puerto of puertos" [value]="puerto.id_puerto">{{ puerto.nombre }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="col-md-3">
-                      <label for="precio_envio">precio envio</label>
+                      <label for="precio_envio">precio envio *</label>
                       <input type="number" id="precio_envio" class="form-control"
                         [(ngModel)]="LogisticaMaritima.precio_envio" name="precio_envio" (change)="calcularDescuento()"  required />
                     </div>
                     <div class="col-md-3">
-                      <label for="precio_con_descuento">precio con descuento</label>
+                      <label for="precio_con_descuento">precio con descuento *</label>
                       <input type="text" id="precio_con_descuento" class="form-control"
                         [(ngModel)]="LogisticaMaritima.precio_con_descuento" name="precio_con_descuento" readonly/>
                     </div>
                     <div class="col-md-3">
-                      <label for="numero_flota">Numero flota</label>
+                      <label for="numero_flota">Numero flota *</label>
                       <input type="text" id="numero_flota" class="form-control"
-                        [(ngModel)]="LogisticaMaritima.numero_flota" name="numero_flota" required />
+                        [(ngModel)]="LogisticaMaritima.numero_flota" name="numero_flota" required  maxlength="6"/>
                     </div>
                     <div class="col-md-3">
-                      <label for="numero_guia">Numero guia</label>
+                      <label for="numero_guia">Numero guia *</label>
                       <input type="text" id="numero_guia" class="form-control"
-                        [(ngModel)]="LogisticaMaritima.numero_guia" name="numero_guia" required />
+                        [(ngModel)]="LogisticaMaritima.numero_guia" name="numero_guia" required maxlength="6" />
                     </div>
                   </div>
                   <br>
@@ -103,10 +118,12 @@
                     </button>
                     <button type="button" class="btn btn-secondary" (click)="filaSeleccionada = null">
                       Cancelar
-                    </button>
-                </form>
+                    </button>  
+                  </form>           
               </td>
             </tr>
+ 
+
           </ng-container>
         </tbody>    
     </table>
