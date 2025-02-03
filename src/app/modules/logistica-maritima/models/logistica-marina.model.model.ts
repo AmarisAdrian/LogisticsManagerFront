@@ -9,5 +9,6 @@ export interface LogisticaMaritima {
     precio_con_descuento: number;
     numero_flota: string;
     numero_guia: string;
+    id_cliente:number;
   }
   
